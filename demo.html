@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <title>Merchant Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com;">
+    <!-- <script src="http://localhost:8000/static/checkout.js"></script> -->
+     <script src="https://checkout.bakongrelay.com/static/checkout.js"></script>
+    <style>
+        body {
+            background-color: #104e4e;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="BakongRelay.pay('Vm7wL3t6XyZj')" style="padding: 15px 30px; background: #0b2447; color: white; border-radius: 10px; cursor: pointer;">
+        Checkout Now
+    </button>
+
+    <script>
+        window.addEventListener('bakongPaymentSuccess', function(e) {
+            console.log("Payment completed for:", e.detail.session_id);
+            // alert("ទូទាត់ជោគជ័យ! អរគុណសម្រាប់ការទិញទំនិញ។");
+            // window.location.reload(); 
+        });
+    </script>
+</body>
+</html>
+
+<!-- Vm7wL3t6XyZj | expired -->
+<!-- t1MT-poSPfIo | success-->
