@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="Content-Security-Policy" content="connect-src 'self' http://localhost:3000 wss://localhost:3000;"> -->
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakong.com;">
     <title>Document</title>
 </head>
 <body>
-    <iframe id="bakong-relay-iframe" src="http://localhost:3000/cx6ajoBxFPjk" width="100%" height="720" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe><script>window.addEventListener('message', function(event) {  if (event.origin !== 'http://localhost:3000') return;  if (event.data && event.data.event === 'payment_success') {     var customEvent = new CustomEvent('bakongPaymentSuccess', { detail: event.data });     window.dispatchEvent(customEvent);  }});</script>
+    <iframe id="bakong-relay-iframe" src="https://checkout.bakongrelay.com/i7yKe7NaxD6b" width="100%" height="720" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe><script>window.addEventListener('message', function(event) {  if (event.origin !== 'https://checkout.bakongrelay.com') return;  if (event.data && event.data.event === 'payment_success') {     var customEvent = new CustomEvent('bakongPaymentSuccess', { detail: event.data });     window.dispatchEvent(customEvent);  }});</script>
 </body>
 </html>
