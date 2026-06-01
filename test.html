@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/bsthen/bsthen@master/favicon.ico">
 </head>
 <body>
     <iframe id='bakong-relay-iframe' src='https://checkout.bakongrelay.com/Tf8nH58O0Lqn' width='100%' height='720' allow='clipboard-write' style='border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);'></iframe><script>window.addEventListener('message', function(event) {  if (event.origin !== 'https://checkout.bakongrelay.com') return;  if (event.data && event.data.event === 'payment_success') {     var customEvent = new CustomEvent('bakongPaymentSuccess', { detail: event.data });     window.dispatchEvent(customEvent);  }});</script>
