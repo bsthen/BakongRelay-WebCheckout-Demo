@@ -33,7 +33,7 @@
         <h3>ជម្រើសទី ២៖ តេស្តតាម iFrame Snippet (Embedded)</h3>
         <p>ខាងក្រោមនេះជាផ្ទាំងដែលកើតចេញពីការយក iFrame Snippet ពី API Response មកដាក់ផ្ទាល់</p>
         
-        <iframe id="bakong-relay-iframe" src="https://checkout.bakongrelay.com/NY34aYwl-j8i" width="100%" height="650" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe>
+        <iframe id="bakong-relay-iframe" sandbox='allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts' src="https://checkout.bakongrelay.com/NY34aYwl-j8i" width="100%" height="650" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe>
         <script>
           window.addEventListener("message", function(event) {
             if (event.origin !== "https://checkout.bakongrelay.com") return;
