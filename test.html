@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
-    <meta charset="UTF-8">
+    <title>Merchant Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakong.com;">
-    <title>Document</title>
-    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/bsthen/bsthen@master/favicon.ico">
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
+    <script src="https://checkout.bakongrelay.com/static/js/checkout.min.js"></script>
 </head>
-<body>
-    <iframe id='bakong-relay-iframe' sandbox='allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts' src='https://checkout.bakongrelay.com/L0qT1BpkQfew' width='100%' height='720' allow='clipboard-write' style='border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);'></iframe><script>window.addEventListener('message', function(event) {  if (event.origin !== 'https://checkout.bakongrelay.com') return;  if (event.data && event.data.event === 'checkout_success') {     alert('payment successfully');     var customEvent = new CustomEvent('bakongPaymentSuccess', { detail: event.data });     window.dispatchEvent(customEvent);  }  if (event.data && event.data.event === 'checkout_close') {     alert('checkout closed');     var customEvent = new CustomEvent('bakongPaymentClose', { detail: event.data });     window.dispatchEvent(customEvent);  }  if (event.data && event.data.event === 'checkout_expired') {     alert('payment session expired');     var customEvent = new CustomEvent('bakongPaymentExpired', { detail: event.data });     window.dispatchEvent(customEvent);  }});</script>
-</body>
-</html>
+<body style="background-color: #104e4e;">
+
+    <button onclick="BakongRelay.pay('CeorJsbUCemw')" style="padding: 15px; background: #0b2447; color: white;">
+        Checkout Now
+    </button>
+
+    <script>
+        window.addEventListener('bakongPaymentSuccess', function(e) {
+            console.log("Payment completed for:", e.detail.session_id);
+        });
+    </script
+</body
+</html}
