@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Khmer Handicraft Shop | ហាងសិប្បកម្មខ្មែរ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
-    <script src="https://checkout.bakongrelay.com/static/js/checkout.min.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.khqr.dev wss://checkout.khqr.dev https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
+    <!-- ⚡️ ភ្ជាប់ JS SDK ផ្លូវការពី checkout.khqr.dev -->
+    <script src="https://checkout.khqr.dev/static/js/checkout.min.js"></script>
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/bsthen/bsthen@master/favicon.ico">
     
     <style>
@@ -71,16 +72,22 @@
             width: 100%;
             padding: 18px;
             font-size: 20px;
-            background: #0b2447 !important;
+            background: #0284c7 !important;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             margin-top: 20px;
             font-family: 'Google Sans', 'Noto Sans Khmer', system-ui, sans-serif;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: transform 0.1s ease, background 0.2s ease;
         }
         button:hover {
-            background: #1e3d6b;
+            background: #0369a1 !important;
+        }
+        button:active {
+            transform: scale(0.99);
         }
         #status {
             margin-top: 15px;
@@ -99,7 +106,6 @@
     <div class="container">
         <div class="product">
             
-            <!-- New Image -->
             <div class="product-img">
                 <img src="https://i.etsystatic.com/10248981/r/il/53b5d8/6690036297/il_570xN.6690036297_7ncc.jpg" 
                      alt="ខ្សែកប្រាក់ខ្មែរ">
@@ -140,8 +146,13 @@
 
         if (token) {
             payButton.onclick = function() {
-                statusDiv.innerHTML = "កំពុងបើកទំព័រ Checkout...";
-                BakongRelay.pay(token);
+                statusDiv.innerHTML = "កំពុងបើកផ្ទាំង Checkout...";
+                // ⚡️ ហៅ KHQR.pay(...) (គាំទ្រទាំង BakongRelay.pay)
+                if (window.KHQR) {
+                    KHQR.pay(token);
+                } else if (window.BakongRelay) {
+                    BakongRelay.pay(token);
+                }
             };
         } else {
             payButton.disabled = true;
@@ -149,8 +160,12 @@
             statusDiv.innerHTML = `<span style="color: #d35400;">⚠️ មិនមានលេខសម្ងាត់ t= នៅក្នុង URL</span>`;
         }
 
+        // ⚡️ ស្ដាប់ Event ជោគជ័យ
+        window.addEventListener('khqrPaymentSuccess', function(e) {
+            statusDiv.innerHTML = `<span style="color: #16a34a;">✅ ទូទាត់ជោគជ័យ! អរគុណបងប្អូន។</span>`;
+        });
         window.addEventListener('bakongPaymentSuccess', function(e) {
-            statusDiv.innerHTML = `✅ ទូទាត់ជោគជ័យ! អរគុណបង្អូន។`;
+            statusDiv.innerHTML = `<span style="color: #16a34a;">✅ ទូទាត់ជោគជ័យ! អរគុណបងប្អូន។</span>`;
         });
     </script>
 </body>

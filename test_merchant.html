@@ -2,65 +2,75 @@
 <html lang="km">
 <head>
     <meta charset="UTF-8">
-    <title>Test Merchant Shop</title>
+    <title>KHQR.dev Integration Testing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://checkout.bakongrelay.com/static/checkout.js"></script>
+    <!-- ⚡️ ភ្ជាប់ JS SDK ផ្លូវការថ្មី -->
+    <script src="https://checkout.khqr.dev/static/js/checkout.min.js"></script>
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/bsthen/bsthen@master/favicon.ico">
     
     <style>
-        body { font-family: sans-serif; background-color: #104e4e; color: white; padding: 40px; text-align: center; }
-        .card { background: white; color: #333; padding: 20px; border-radius: 12px; max-width: 500px; margin: 20px auto; }
-        .btn { padding: 12px 24px; background: #0b2447; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
-        .iframe-container { max-width: 900px; margin: 40px auto; background: white; padding: 10px; border-radius: 20px; }
-        #log-box { background: #000; color: #00ff00; padding: 15px; border-radius: 8px; max-width: 600px; margin: 20px auto; text-align: left; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #0f172a; color: white; padding: 40px 20px; text-align: center; }
+        .card { background: white; color: #333; padding: 25px; border-radius: 16px; max-width: 520px; margin: 20px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn { padding: 14px 28px; background: #0284c7; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); }
+        .btn:hover { background: #0369a1; }
+        .iframe-container { max-width: 900px; margin: 40px auto; background: white; padding: 16px; border-radius: 24px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+        #log-box { background: #020617; color: #38bdf8; padding: 16px; border-radius: 12px; max-width: 620px; margin: 20px auto; text-align: left; font-family: monospace; font-size: 13px; border: 1px solid #1e293b; overflow-x: auto; }
     </style>
 </head>
 <body>
 
-    <h1>Bakong Relay Integration Testing</h1>
+    <h1>KHQR.dev Integration Testing</h1>
     
     <div id="log-box">📬 Waiting for payment events...</div>
 
     <div class="card">
-        <h3>ជម្រើសទី ១៖ តេស្តតាម SDK (Popup)</h3>
-        <p>ចុចប៊ូតុងខាងក្រោមដើម្បីបើកផ្ទាំង Checkout តាមរយៈ SDK</p>
-        <button class="btn" onclick="BakongRelay.pay('NY34aYwl-j8i')">
+        <h3>ជម្រើសទី ១៖ តេស្តតាម SDK (Popup Modal)</h3>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">ចុចប៊ូតុងខាងក្រោមដើម្បីបើកផ្ទាំង Checkout តាមរយៈ JS SDK</p>
+        
+        <!-- ⚡️ ហៅប្រើប្រាស់ KHQR.pay(...) -->
+        <button class="btn" onclick="KHQR.pay('NY34aYwl-j8i')">
             Checkout with SDK
         </button>
     </div>
 
     <div class="iframe-container">
         <h3>ជម្រើសទី ២៖ តេស្តតាម iFrame Snippet (Embedded)</h3>
-        <p>ខាងក្រោមនេះជាផ្ទាំងដែលកើតចេញពីការយក iFrame Snippet ពី API Response មកដាក់ផ្ទាល់</p>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">ខាងក្រោមនេះជាផ្ទាំងបង្កប់ផ្ទាល់ពី checkout.khqr.dev</p>
         
-        <iframe id="bakong-relay-iframe" sandbox='allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts' src="https://checkout.bakongrelay.com/NY34aYwl-j8i" width="100%" height="650" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe>
+        <!-- ⚡️ ប្រើ Domain checkout.khqr.dev -->
+        <iframe id="khqr-checkout-iframe" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" src="https://checkout.khqr.dev/NY34aYwl-j8i" width="100%" height="650" allow="clipboard-write" style="border:none; border-radius:20px; box-shadow:0 4px 20px rgba(15,23,42,0.15);"></iframe>
+        
         <script>
           window.addEventListener("message", function(event) {
-            if (event.origin !== "https://checkout.bakongrelay.com") return;
-            if (event.data && event.data.event === "payment_success") {
-               var customEvent = new CustomEvent("bakongPaymentSuccess", { detail: event.data });
-               window.dispatchEvent(customEvent);
+            // ទទួលស្គាល់ទាំងពីរ Domain Origins
+            if (event.origin !== "https://checkout.khqr.dev" && event.origin !== "https://checkout.bakongrelay.com") return;
+            if (event.data && (event.data.event === "checkout_success" || event.data.event === "payment_success")) {
+               window.dispatchEvent(new CustomEvent("khqrPaymentSuccess", { detail: event.data }));
+               window.dispatchEvent(new CustomEvent("bakongPaymentSuccess", { detail: event.data }));
             }
           });
         </script>
     </div>
 
     <script>
-        window.addEventListener('bakongPaymentSuccess', function(e) {
+        function handleSuccessEvent(e) {
             console.log("👉 ទិន្នន័យទទួលបាននៅលើ Web Merchant:", e.detail);
             
-            // បង្ហាញទិន្នន័យនៅលើផ្ទាំងអេក្រង់ឱ្យបងបានឃើញច្បាស់ៗ
             const logBox = document.getElementById('log-box');
-            logBox.innerHTML = `🎉 <b>ទូទាត់ជោគជ័យ (Payment Success)!</b><br><br>` + 
-                               `📦 Payload: ` + JSON.stringify(e.detail, null, 2);
+            logBox.innerHTML = `🎉 <b style="color: #4ade80;">ទូទាត់ជោគជ័យ (Payment Success)!</b><br><br>` + 
+                               `📦 Payload: <pre style="margin: 0; color: #f8fafc;">` + JSON.stringify(e.detail, null, 2) + `</pre>`;
             
-            // បើសិនជាប្រើ SDK Popup គឺយើងអាចបញ្ជាឱ្យវាបិទខ្លួនឯងភ្លាមៗក្រោយបង់លុយរួច
-            if (window.BakongRelay && typeof window.BakongRelay.close === 'function') {
+            // បិទ Popup Modal ដោយស្វ័យប្រវត្តិតាមរយៈ KHQR.close()
+            if (window.KHQR && typeof window.KHQR.close === 'function') {
                 setTimeout(function() {
-                    window.BakongRelay.close();
-                }, 3000); // ទុក ៣ វិនាទីឱ្យមើល Log រួចបិទ Popup
+                    window.KHQR.close();
+                }, 3000);
             }
-        });
+        }
+
+        // ស្ដាប់ Event ជោគជ័យទាំងពីរទម្រង់
+        window.addEventListener('khqrPaymentSuccess', handleSuccessEvent);
+        window.addEventListener('bakongPaymentSuccess', handleSuccessEvent);
     </script>
 
 </body>

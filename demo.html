@@ -1,27 +1,56 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <title>Merchant Shop</title>
+    <meta charset="UTF-8">
+    <title>Merchant Shop — KHQR.dev</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
-    <script src="https://checkout.bakongrelay.com/static/js/checkout.min.js"></script>
+    <!-- ⚡️ Content Security Policy គាំទ្រ checkout.khqr.dev -->
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.khqr.dev wss://checkout.khqr.dev https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
+    <!-- ⚡️ ប្រើប្រាស់ JS SDK ថ្មីពី checkout.khqr.dev -->
+    <script src="https://checkout.khqr.dev/static/js/checkout.min.js"></script>
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/bsthen/bsthen@master/favicon.ico">
     <style>
         body {
             background-color: #104e4e;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .btn-pay {
+            padding: 15px 32px;
+            background: #0284c7;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+        .btn-pay:hover {
+            background: #0369a1;
+        }
+        .btn-pay:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <button onclick="BakongRelay.pay('Vm7wL3t6XyZj')" style="padding: 15px 30px; background: #0b2447; color: white; border-radius: 10px; cursor: pointer;">
-        Checkout Now
+    <!-- ⚡️ ហៅប្រើប្រាស់ KHQR.pay(...) (ឬ BakongRelay.pay ក៏នៅតែដើរ) -->
+    <button class="btn-pay" onclick="KHQR.pay('Vm7wL3t6XyZj')">
+        🛒 Checkout with KHQR
     </button>
 
     <script>
-        window.addEventListener('bakongPaymentSuccess', function(e) {
-            console.log("Payment completed for:", e.detail.session_id);
-            // alert("ទូទាត់ជោគជ័យ! អរគុណសម្រាប់ការទិញទំនិញ។");
+        // ⚡️ ស្ដាប់ Event ជោគជ័យតាមស្តង់ដារថ្មី 'khqrPaymentSuccess' (ឬ 'bakongPaymentSuccess')
+        window.addEventListener('khqrPaymentSuccess', function(e) {
+            console.log("Payment completed successfully:", e.detail);
+            alert("🎉 ទូទាត់ជោគជ័យ! អរគុណសម្រាប់ការទិញទំនិញ។");
             // window.location.reload(); 
         });
     </script>
